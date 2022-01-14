@@ -95,9 +95,8 @@
  }
 
  canvas {
-    width:1200px;
-    height:500px;
-    background-color: rgb(255, 254, 176);
+
+    background-color: rgb(87, 84, 84);
 }
 
 #sounds {
