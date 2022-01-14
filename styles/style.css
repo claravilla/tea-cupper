@@ -96,7 +96,8 @@
 
  canvas {
 
-    background-color: rgb(87, 84, 84);
+    background-color: rgb(126, 121, 121);
+    border:1px solid black;
 }
 
 #sounds {
