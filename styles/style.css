@@ -1,0 +1,123 @@
+@font-face {
+    font-family: arcade;
+    src: url(ARCADECLASSIC.TTF);
+  }
+
+  body {
+      background-color: #c0fcfd;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 0.7rem;
+      
+  }
+
+  h1 {
+      font-size: 7rem;
+      font-family: arcade;
+      color:rgb(141, 35, 35);
+      text-align: center;
+      margin-top:30px;
+      margin-bottom:40px;
+  }
+
+  h2 {
+      margin:0;
+  }
+
+
+  main {
+      display:flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin:0 100px;
+      text-align: center;
+  }
+
+
+
+/* ---INTRO SECTION STYILING--- */
+
+
+  #intro {
+      display:flex;
+      flex-direction: column;
+      justify-content:flex-start;
+      align-items: center;
+  }
+
+  #intro p {
+      margin: 20px 300px;
+  }
+
+  @media (max-width: 1635px) {
+    #intro p {
+        margin: 50px 200px;
+    }
+  }
+
+
+  @media (max-width: 1280px) {
+    #intro p {
+        margin: 50px 100px;
+    }
+  }
+
+  .btn-game {
+    border-radius: 20px;
+    height: 50px;
+    width: 241px;
+    font-family: arcade;
+    letter-spacing: 0.7rem;;
+    font-size: 30px;
+    font-weight: 100;
+    color: #FFFFFF;
+    text-align: center;
+    padding-top:10px;
+    background-color: rgb(141, 35, 35);
+
+    
+ }
+ 
+ .btn-game:hover {   
+    background: #1C8F23;
+    border-radius: 20px;
+   
+ }
+
+ /* ---GAME SECTION STYLING--- */
+ #game {
+     display:flex;
+     flex-direction: column;
+     justify-content: flex-start;
+     align-items: center;
+     margin-top:30px
+     
+ }
+
+ canvas {
+    width:1200px;
+    height:500px;
+    background-color: rgb(255, 254, 176);
+}
+
+#sounds {
+    align-items: flex-start;
+}
+
+
+ /* ---FOOTER STYLING--- */
+
+ #credits {
+    font-size: 0.7rem;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    letter-spacing: normal;
+    margin:20px;
+  }
+
+  #credits h6 {
+    font-size: 0.5rem;
+    font-weight: bold;
+    margin:0;
+  }
+
+  /*-------*/
