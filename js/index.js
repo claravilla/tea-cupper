@@ -35,6 +35,17 @@ gameOverImg.src = "./images/game-over.jpg";
 const youWinImg = new Image();
 youWinImg.src = "./images/you-win.png";
 
+//SOUNDS VARIABLES
+
+const winSound = new Audio();
+winSound.src = "./sounds/win-game.wav"
+
+const gameOverSound = new Audio();
+gameOverSound.src = "./sounds/time-out.mp3"
+
+const crashSound = new Audio();
+crashSound.src = "./sounds/crash-sound.mp3"
+
 //GAME OBJECT
 
 const game = {
@@ -104,7 +115,7 @@ class Component {
   }
 
   moveUp() {
-    if (this.y > 0) {
+    if (this.y > 3) {
       this.y -= this.speed;
     }
   }
@@ -146,7 +157,7 @@ class Component {
 
 //GAME VARIABLES
 
-const teaCup = new Component(43, 40, teaCupImg, 570, 323, 10);
+const teaCup = new Component(43, 40, teaCupImg, 570, 327, 10);
 // const teaCup = new Component(43, 40, "green", 570, 323, 10);
 
 const cupCakeColors = ["blue", "red", "orange", "yellow", "purple", "aqua"];
@@ -224,6 +235,7 @@ function createNewCupCake() {
 function checkCrash() {
   cupCakes.some(function (eachCupCake) {
     if (teaCup.crashWith(eachCupCake)) {
+      crashSound.play();
       teaCup.resetPosition();
       teaCup.draw();
     }
@@ -238,6 +250,7 @@ function winGame() {
     game.stop();
     kettle.stopTimer();
     ctx.drawImage(youWinImg, 400, 120, 400, 100);
+    winSound.play();
   }
 }
 
@@ -245,7 +258,9 @@ function winGame() {
 
 function gameOver() {
   game.stop();
-  ctx.drawImage(gameOverImg, 500, 150, 300, 100);
+  kettle.stopTimer();
+  ctx.drawImage(gameOverImg, 500, 140, 320, 110);
+  gameOverSound.play();
 }
 
 //DRAW GAME WHEN PAGE LOADS
