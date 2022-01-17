@@ -198,7 +198,7 @@ function randomArrayElement(arr) {
 
 function drawInitialCupCakes() {
   console.log("drawing cupcakes");
-  for (let i = 0; i < 17; i++) {
+  for (let i = 0; i < 17; i+=2) {
     cupCake = new Component(
       65,
       70,
@@ -209,7 +209,7 @@ function drawInitialCupCakes() {
       0.5
     );
     cupCake.draw();
-    cupCakeXPosition += 75;
+    cupCakeXPosition += 150;
     cupCakes.push(cupCake);
   }
 
@@ -245,7 +245,7 @@ function moveCupcakes() {
 
 //CREATE NEW CUPCAKES
 function createNewCupCake() {
-  if (game.frame % 140 === 0) {
+  if (game.frame % 280 === 0) {
     cupCake = new Component(
       65,
       70,
