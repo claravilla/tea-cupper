@@ -59,18 +59,12 @@ const game = {
   },
 
   createBoard: function () {
-    console.log("create board");
     ctx.fillStyle = "#7C99AC";
     ctx.fillRect(0, 85, 1200, 310);
     ctx.fillStyle = "#ddb8b8";
     ctx.fillRect(0, 0, 1200, 85);
     ctx.fillRect(0, 310, 1200, 85);
     ctx.drawImage(teaPotImg, 1120, 5, 70, 70);
-    // let teaPotImg = new Image();
-    // teaPotImg.src = "./images/teapot.png";
-    // teaPotImg.onload = function () {
-    // ctx.drawImage(teaPotImg, 1120, 5, 70, 70);
-    // };
   },
 
   stop: function () {
@@ -85,24 +79,18 @@ class Component {
     this.width = width;
     this.height = height;
     this.img = img;
-    // this.color = color;
     this.x = x;
     this.y = y;
     this.speed = speed;
   }
 
   draw() {
-    // let compImg = new Image();
-    // compImg.src = this.img;
-    // compImg.onload = () => {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-    // ctx.fillStyle = this.color;
-    // ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 
   resetPosition() {
     this.x = 570;
-    this.y = 323;
+    this.y = 327;
   }
 
   moveLeft() {
@@ -161,9 +149,7 @@ class Component {
 //GAME VARIABLES
 
 const teaCup = new Component(43, 40, teaCupImg, 570, 327, 10);
-// const teaCup = new Component(43, 40, "green", 570, 323, 10);
 
-const cupCakeColors = ["blue", "red", "orange", "yellow", "purple", "aqua"];
 
 const cupCakeImgs = [
   cupCakeImg1,
@@ -174,44 +160,49 @@ const cupCakeImgs = [
   cupCakeImg6,
 ];
 
+
+let cupCake, cookiesJar;
+
 const cupCakeYPositions = [85, 235];  //removed 160 which is the middle row
 let cupCakeXPosition = 0;
 let cupCakes = [];
-let cupCake;
 
 let cookiesJars = [];
-let cookiesJar;
 const cookiesJarYposition = 160;
 let cookiesJarXPosition = 0;
 
+let cupCakeSpeed =0.5
+let cookiesJarSpeed = 1.5 
+
+
 let gameTime = 29;
+let sugarRush,clearSugarRush;
 
-//--------FUNCTIONS------
+//--------FUNCTIONS FOR THE GAME ------
 
-//SELECT A RANDOM ELEMENT OF ARRAY - USED FOR CREATING OBSTACLES
+//SELECT A RANDOM ELEMENT OF AN ARRAY - USED FOR CREATING OBSTACLES
 
 function randomArrayElement(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-//CREATES THE FIRST 16 OBSTACLES FOR THE START OF THE GAME
+//CREATE THE FIRST OBSTACLES FOR THE START OF THE GAME 
 
 function drawInitialCupCakes() {
-  console.log("drawing cupcakes");
   for (let i = 0; i < 17; i+=2) {
     cupCake = new Component(
       65,
       70,
       randomArrayElement(cupCakeImgs),
-      // randomArrayElement(cupCakeColors),
       cupCakeXPosition,
       randomArrayElement(cupCakeYPositions),
-      0.5
+      cupCakeSpeed
     );
     cupCake.draw();
     cupCakeXPosition += 150;
     cupCakes.push(cupCake);
   }
+
 
   for (let i = 0; i < 6; i++) {
     cookiesJar = new Component(
@@ -220,7 +211,7 @@ function drawInitialCupCakes() {
       cookiesImg,
       cookiesJarXPosition,
       cookiesJarYposition,
-      1.5
+      cookiesJarSpeed
     );
     cookiesJar.draw();
     cookiesJarXPosition += 300;
@@ -230,7 +221,7 @@ function drawInitialCupCakes() {
 
 }
 
-//MOVE CUPCAKES
+//MOVE OBSTACLES
 function moveCupcakes() {
   cupCakes.forEach(function (eachCupCake) {
     eachCupCake.x -= eachCupCake.speed;
@@ -243,17 +234,16 @@ function moveCupcakes() {
   });
 }
 
-//CREATE NEW CUPCAKES
+//CREATE NEW OBSTACLES
 function createNewCupCake() {
   if (game.frame % 280 === 0) {
     cupCake = new Component(
       65,
       70,
       randomArrayElement(cupCakeImgs),
-      // randomArrayElement(cupCakeColors),
       1200,
       randomArrayElement(cupCakeYPositions),
-      0.5
+      cupCakeSpeed
     );
     cupCakes.push(cupCake);
   }
@@ -265,7 +255,7 @@ function createNewCupCake() {
       cookiesImg,
       1200,
       cookiesJarYposition,
-      1.5
+      cookiesJarSpeed
     );
     cookiesJars.push(cookiesJar)
 }
@@ -294,9 +284,9 @@ function checkCrash() {
 
 function winGame() {
   if (teaCup.x > 1120 && teaCup.y <= 33) {
-    console.log("you win");
     game.stop();
     kettle.stopTimer();
+    // resetSugarRush();
     ctx.drawImage(youWinImg, 400, 120, 400, 100);
     winSound.play();
   }
@@ -307,22 +297,104 @@ function winGame() {
 function gameOver() {
   game.stop();
   kettle.stopTimer();
+  // resetSugarRush();
   ctx.drawImage(gameOverImg, 500, 140, 320, 110);
   gameOverSound.play();
 }
 
-//DRAW GAME WHEN PAGE LOADS
+
+//INCREASE/DECREASE SPEED OF CUPCAKES EVERY 7 SEC
+// function startSugarRush() {
+//   sugarRush = setInterval(function(){
+//     cupCakeSpeed*=2;
+//     cookiesJarSpeed*=2;
+//     cupCakes.forEach(function(eachCupCake){
+//       eachCupCake.speed*=2;
+//     })
+//     cookiesJars.forEach(function(eachCookiesJar){
+//       eachCookiesJar.speed*=2;
+//     })
+// },7000);
+
+//   clearSugarRush = setInterval(function(){
+//     cupCakeSpeed/=2;
+//     cookiesJarSpeed/=2;
+//   cupCakes.forEach(function(eachCupCake){
+//     eachCupCake.speed/=2;
+//   })
+//   cookiesJars.forEach(function(eachCookiesJar){
+//     eachCookiesJar.speed/=2;
+//   })
+
+// },8500);
+
+// }
+
+
+function resetSugarRush(){
+  clearInterval(sugarRush);
+  clearInterval(clearSugarRush);
+}
+
+//TIMER
+
+const kettle = {
+  x: 0,
+  y: 0,
+  width: 30,
+  height: 25,
+  draw: function () {
+    ctxTimer.drawImage(kettleImg, this.x, this.y, this.width, this.height);
+  },
+  
+  startTimer: function () {
+    this.interval = setInterval(moveTimer, 1000);
+  },
+
+  stopTimer:function(){
+    clearInterval(this.interval);
+  }
+};
+
+function moveTimer() {
+  if (gameTime > 0) {
+    console.log(gameTime);
+    ctxTimer.fillStyle = "white";
+    ctxTimer.fillRect(0,0,canvasTimer.width,canvasTimer.height);
+    kettle.x += kettle.width;
+    kettle.draw();
+    gameTime--;
+  } else {
+    gameOver();
+  }
+}
+
+
+//REFRESH THE GAME EVERY 20MILLISECOND
+
+function updateGameArea() {
+  game.frame++;
+  game.createBoard();
+  teaCup.draw();
+  moveCupcakes();
+  createNewCupCake();
+  checkCrash();
+  winGame();
+}
+
+// ---EVENT LISTENERS---
+
+//WAIT FOR THE PAGE TO FULLY LOAD BEFORE DRAWING THE GAME
 window.onload = () => {
-  console.log("page is fully loaded");
   game.createBoard();
   teaCup.draw();
   drawInitialCupCakes();
   ctxTimer.fillStyle = "white"
-  ctxTimer.fillRect(0,0,900,25);
+  ctxTimer.fillRect(0,0,canvasTimer.width,canvasTimer.height);
   kettle.draw();
 };
 
-//EVENT LISTENERS FOR THE KEYS TO CONTROL THE GAME ADDED WHEN THE GAME START
+//EVENT LISTENERS FOR THE KEYS TO CONTROL THE GAME
 
 function addControlEvents() {
   document.addEventListener("keydown", function (event) {
@@ -343,21 +415,11 @@ function addControlEvents() {
   });
 }
 
-//REFRESH THE GAME EVERY 20MILLISECOND
 
-function updateGameArea() {
-  game.frame++;
-  game.createBoard();
-  teaCup.draw();
-  moveCupcakes();
-  createNewCupCake();
-  checkCrash();
-  winGame();
-}
 
-//WHEN THE PLAY BUTTON IS CLICKED
+//EVENT LISTENER WHEN THE PLAY BUTTON IS CLICKED
 document.querySelector(".btn-game").addEventListener("click", function () {
-  console.log("this works");
+  //remove the Play button
   document.querySelector(".btn-game").setAttribute("class", "hidden");
 
   //to remove scrolling in browser with arrow keys
@@ -375,42 +437,12 @@ document.querySelector(".btn-game").addEventListener("click", function () {
     false
   );
 
-  addControlEvents(); //add eventlistener to move the player
-  game.start();
+  //add eventlistener to arrow keys to move the player
+  addControlEvents(); 
+
+  //start game, timer and obstacle changing speed
+  game.start();   
   kettle.startTimer();
+  // startSugarRush() ;
 });
 
-//TIMEBAR
-
-// ctxTimer.fillStyle="darkgrey";
-// ctxTimer.fillRect(0,0,600,45);
-
-const kettle = {
-  x: 0,
-  y: 0,
-  width: 30,
-  height: 25,
-  draw: function () {
-    ctxTimer.drawImage(kettleImg, this.x, this.y, this.width, this.height);
-  },
-  rotate: function () {
-    ctxTimer.rotate((Math.PI / 180) * 25);
-  },
-  startTimer: function () {
-    this.interval = setInterval(moveTimer, 1000);
-  },
-
-  stopTimer:function(){
-    clearInterval(this.interval);
-  }
-};
-
-function moveTimer() {
-  if (gameTime > 0) {
-    kettle.x += kettle.width;
-    kettle.draw();
-    gameTime--;
-  } else {
-    gameOver();
-  }
-}
