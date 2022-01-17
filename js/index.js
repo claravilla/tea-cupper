@@ -27,6 +27,9 @@ cupCakeImg5.src = "./images/cupcake5.png";
 const cupCakeImg6 = new Image();
 cupCakeImg6.src = "./images/cupcake6.png";
 
+const cookiesImg = new Image();
+cookiesImg.src = "./images/cookies.png";
+
 const kettleImg = new Image();
 kettleImg.src = "./images/kettle.png";
 
@@ -171,10 +174,15 @@ const cupCakeImgs = [
   cupCakeImg6,
 ];
 
-const cupCakeYPositions = [85, 160, 235];
+const cupCakeYPositions = [85, 235];  //removed 160 which is the middle row
 let cupCakeXPosition = 0;
 let cupCakes = [];
 let cupCake;
+
+let cookiesJars = [];
+let cookiesJar;
+const cookiesJarYposition = 160;
+let cookiesJarXPosition = 0;
 
 let gameTime = 29;
 
@@ -204,6 +212,22 @@ function drawInitialCupCakes() {
     cupCakeXPosition += 75;
     cupCakes.push(cupCake);
   }
+
+  for (let i = 0; i < 6; i++) {
+    cookiesJar = new Component(
+      150,
+      70,
+      cookiesImg,
+      cookiesJarXPosition,
+      cookiesJarYposition,
+      1.5
+    );
+    cookiesJar.draw();
+    cookiesJarXPosition += 300;
+    cookiesJars.push(cookiesJar);
+  }
+
+
 }
 
 //MOVE CUPCAKES
@@ -211,6 +235,11 @@ function moveCupcakes() {
   cupCakes.forEach(function (eachCupCake) {
     eachCupCake.x -= eachCupCake.speed;
     eachCupCake.draw();
+  });
+
+  cookiesJars.forEach(function (eachCookiesJar) {
+    eachCookiesJar.x -= eachCookiesJar.speed;
+    eachCookiesJar.draw();
   });
 }
 
@@ -228,13 +257,32 @@ function createNewCupCake() {
     );
     cupCakes.push(cupCake);
   }
-}
 
+  if (game.frame % 200 === 0) {
+    cookiesJar = new Component(
+      150,
+      70,
+      cookiesImg,
+      1200,
+      cookiesJarYposition,
+      1.5
+    );
+    cookiesJars.push(cookiesJar)
+}
+}
 //CHECK IF TEACUP CRASHED AND RETURN TO START POSITION
 
 function checkCrash() {
   cupCakes.some(function (eachCupCake) {
     if (teaCup.crashWith(eachCupCake)) {
+      crashSound.play();
+      teaCup.resetPosition();
+      teaCup.draw();
+    }
+  });
+
+  cookiesJars.some(function (eachCookiesJar) {
+    if (teaCup.crashWith(eachCookiesJar)) {
       crashSound.play();
       teaCup.resetPosition();
       teaCup.draw();
