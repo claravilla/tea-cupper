@@ -41,13 +41,13 @@ youWinImg.src = "./images/you-win.png";
 //SOUNDS VARIABLES
 
 const winSound = new Audio();
-winSound.src = "./sounds/win-game.wav"
+winSound.src = "./sounds/win-game.wav";
 
 const gameOverSound = new Audio();
-gameOverSound.src = "./sounds/time-out.mp3"
+gameOverSound.src = "./sounds/time-out.mp3";
 
 const crashSound = new Audio();
-crashSound.src = "./sounds/crash-sound.mp3"
+crashSound.src = "./sounds/crash-sound.mp3";
 
 //GAME OBJECT
 
@@ -60,11 +60,11 @@ const game = {
 
   createBoard: function () {
     ctx.fillStyle = "#7C99AC";
-    ctx.fillRect(0, 85, 1200, 310);
+    ctx.fillRect(0, 85, canvas.width, canvas.height - 85);
     ctx.fillStyle = "#ddb8b8";
-    ctx.fillRect(0, 0, 1200, 85);
-    ctx.fillRect(0, 310, 1200, 85);
-    ctx.drawImage(teaPotImg, 1120, 5, 70, 70);
+    ctx.fillRect(0, 0, canvas.width, 85);
+    ctx.fillRect(0, canvas.height - 85, canvas.width, 85);
+    ctx.drawImage(teaPotImg, canvas.width - 70, 5, 70, 70);
   },
 
   stop: function () {
@@ -89,8 +89,8 @@ class Component {
   }
 
   resetPosition() {
-    this.x = 570;
-    this.y = 327;
+    this.x = (canvas.width - 43) / 2;
+    this.y = canvas.height - 60;
   }
 
   moveLeft() {
@@ -112,7 +112,7 @@ class Component {
   }
 
   moveDown() {
-    if (this.y < 345) {
+    if (this.y < 420) {
       this.y += this.speed;
     }
   }
@@ -148,8 +148,7 @@ class Component {
 
 //GAME VARIABLES
 
-const teaCup = new Component(43, 40, teaCupImg, 570, 327, 10);
-
+let playerSpeed = 10;
 
 const cupCakeImgs = [
   cupCakeImg1,
@@ -160,23 +159,38 @@ const cupCakeImgs = [
   cupCakeImg6,
 ];
 
-
 let cupCake, cookiesJar;
 
-const cupCakeYPositions = [85, 235];  //removed 160 which is the middle row
+const cupCakeYPositions = [
+  canvas.height - 85 - 70,
+  canvas.height - 85 - 70 - 70 - 70,
+]; //bottom and third row;
 let cupCakeXPosition = 0;
 let cupCakes = [];
 
 let cookiesJars = [];
-const cookiesJarYposition = 160;
+const cookiesJarYposition = canvas.height - 85 - 70 - 70; //second row
 let cookiesJarXPosition = 0;
 
-let cupCakeSpeed =0.5
-let cookiesJarSpeed = 1.5 
+let cookiesJarsTop = [];
+const cookiesJarTopYposition = 85;
+let cookiesJarTopXPosition = -150;
 
+let cupCakeSpeed = 0.5;
+let cookiesJarSpeed = 1.5;
+let cookiesJarTopSpeed = -2;
 
 let gameTime = 29;
-let sugarRush,clearSugarRush;
+let sugarRush, clearSugarRush;
+
+const teaCup = new Component(
+  43,
+  40,
+  teaCupImg,
+  (canvas.width - 43) / 2,
+  canvas.height - 60,
+  playerSpeed
+);
 
 //--------FUNCTIONS FOR THE GAME ------
 
@@ -186,10 +200,10 @@ function randomArrayElement(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-//CREATE THE FIRST OBSTACLES FOR THE START OF THE GAME 
+//CREATE THE FIRST OBSTACLES FOR THE START OF THE GAME
 
 function drawInitialCupCakes() {
-  for (let i = 0; i < 17; i+=2) {
+  for (let i = 0; i < 17; i += 2) {
     cupCake = new Component(
       65,
       70,
@@ -202,7 +216,6 @@ function drawInitialCupCakes() {
     cupCakeXPosition += 150;
     cupCakes.push(cupCake);
   }
-
 
   for (let i = 0; i < 6; i++) {
     cookiesJar = new Component(
@@ -218,8 +231,40 @@ function drawInitialCupCakes() {
     cookiesJars.push(cookiesJar);
   }
 
+  for (let i = 0; i < 6; i++) {
+    cookiesJar = new Component(
+      150,
+      70,
+      cookiesImg,
+      cookiesJarTopXPosition,
+      cookiesJarTopYposition,
+      cookiesJarTopSpeed
+    );
+    cookiesJar.draw();
+    cookiesJarTopXPosition += 300;
+    cookiesJarsTop.push(cookiesJar);
+  }
 
+  // drawCookiesJars(cookiesJarSpeed,cookiesJarXPosition,cookiesJarYposition,cookiesJars);
+  // drawCookiesJars(cookiesJarTopSpeed,cookiesJarTopXPosition,cookiesJarTopYposition,cookiesJarsTop);
 }
+
+//FUNCTION TO DRAW INITIAL COOKIES JARS
+//  function drawCookiesJars(speed,posX,posY,arr) {
+//   for (let i = 0; i < 6; i++) {
+//     cookiesJar = new Component(
+//       150,
+//       70,
+//       cookiesImg,
+//       posX,
+//       posY,
+//       speed
+//     );
+//     cookiesJar.draw();
+//     cookiesJarXPosition += 300;
+//    arr.push(cookiesJar);
+//   }
+//  }
 
 //MOVE OBSTACLES
 function moveCupcakes() {
@@ -232,6 +277,11 @@ function moveCupcakes() {
     eachCookiesJar.x -= eachCookiesJar.speed;
     eachCookiesJar.draw();
   });
+
+  cookiesJarsTop.forEach(function (eachCookiesJar) {
+    eachCookiesJar.x -= eachCookiesJar.speed;
+    eachCookiesJar.draw();
+  });
 }
 
 //CREATE NEW OBSTACLES
@@ -241,7 +291,7 @@ function createNewCupCake() {
       65,
       70,
       randomArrayElement(cupCakeImgs),
-      1200,
+      canvas.width,
       randomArrayElement(cupCakeYPositions),
       cupCakeSpeed
     );
@@ -253,13 +303,26 @@ function createNewCupCake() {
       150,
       70,
       cookiesImg,
-      1200,
+      canvas.width,
       cookiesJarYposition,
       cookiesJarSpeed
     );
-    cookiesJars.push(cookiesJar)
+    cookiesJars.push(cookiesJar);
+  }
+
+  if (game.frame % 150 === 0) {
+    cookiesJar = new Component(
+      150,
+      70,
+      cookiesImg,
+      -150,
+      cookiesJarTopYposition,
+      cookiesJarTopSpeed
+    );
+    cookiesJarsTop.push(cookiesJar);
+  }
 }
-}
+
 //CHECK IF TEACUP CRASHED AND RETURN TO START POSITION
 
 function checkCrash() {
@@ -272,6 +335,14 @@ function checkCrash() {
   });
 
   cookiesJars.some(function (eachCookiesJar) {
+    if (teaCup.crashWith(eachCookiesJar)) {
+      crashSound.play();
+      teaCup.resetPosition();
+      teaCup.draw();
+    }
+  });
+
+  cookiesJarsTop.some(function (eachCookiesJar) {
     if (teaCup.crashWith(eachCookiesJar)) {
       crashSound.play();
       teaCup.resetPosition();
@@ -302,7 +373,6 @@ function gameOver() {
   gameOverSound.play();
 }
 
-
 //INCREASE/DECREASE SPEED OF CUPCAKES EVERY 7 SEC
 // function startSugarRush() {
 //   sugarRush = setInterval(function(){
@@ -330,11 +400,10 @@ function gameOver() {
 
 // }
 
-
-function resetSugarRush(){
-  clearInterval(sugarRush);
-  clearInterval(clearSugarRush);
-}
+// function resetSugarRush(){
+//   clearInterval(sugarRush);
+//   clearInterval(clearSugarRush);
+// }
 
 //TIMER
 
@@ -346,21 +415,21 @@ const kettle = {
   draw: function () {
     ctxTimer.drawImage(kettleImg, this.x, this.y, this.width, this.height);
   },
-  
+
   startTimer: function () {
     this.interval = setInterval(moveTimer, 1000);
   },
 
-  stopTimer:function(){
+  stopTimer: function () {
     clearInterval(this.interval);
-  }
+  },
 };
 
 function moveTimer() {
   if (gameTime > 0) {
     console.log(gameTime);
     ctxTimer.fillStyle = "white";
-    ctxTimer.fillRect(0,0,canvasTimer.width,canvasTimer.height);
+    ctxTimer.fillRect(0, 0, canvasTimer.width, canvasTimer.height);
     kettle.x += kettle.width;
     kettle.draw();
     gameTime--;
@@ -368,7 +437,6 @@ function moveTimer() {
     gameOver();
   }
 }
-
 
 //REFRESH THE GAME EVERY 20MILLISECOND
 
@@ -389,8 +457,8 @@ window.onload = () => {
   game.createBoard();
   teaCup.draw();
   drawInitialCupCakes();
-  ctxTimer.fillStyle = "white"
-  ctxTimer.fillRect(0,0,canvasTimer.width,canvasTimer.height);
+  ctxTimer.fillStyle = "white";
+  ctxTimer.fillRect(0, 0, canvasTimer.width, canvasTimer.height);
   kettle.draw();
 };
 
@@ -415,8 +483,6 @@ function addControlEvents() {
   });
 }
 
-
-
 //EVENT LISTENER WHEN THE PLAY BUTTON IS CLICKED
 document.querySelector(".btn-game").addEventListener("click", function () {
   //remove the Play button
@@ -438,11 +504,10 @@ document.querySelector(".btn-game").addEventListener("click", function () {
   );
 
   //add eventlistener to arrow keys to move the player
-  addControlEvents(); 
+  addControlEvents();
 
   //start game, timer and obstacle changing speed
-  game.start();   
+  game.start();
   kettle.startTimer();
   // startSugarRush() ;
 });
-
