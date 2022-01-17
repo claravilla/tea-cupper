@@ -94,14 +94,18 @@
      
  }
 
- canvas {
+ #canvas {
     border:1px solid black;
 }
 
 #sounds {
-    align-items: flex-start;
+    align-self: flex-start;
 }
 
+#timer {
+  display:flex;
+  justify-content: space-around;
+}
 
  /* ---FOOTER STYLING--- */
 
@@ -117,6 +121,10 @@
     font-size: 0.5rem;
     font-weight: bold;
     margin:0;
+  }
+
+  .hidden {
+    visibility: hidden;
   }
 
   /*-------*/
