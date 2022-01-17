@@ -7,15 +7,16 @@
       background-color: #c0fcfd;
       font-family: 'Orbitron', sans-serif;
       letter-spacing: 0.7rem;
+      margin:0;
       
   }
 
   h1 {
       font-size: 7rem;
       font-family: arcade;
-      color:rgb(141, 35, 35);
+      color: white;
       text-align: center;
-      margin-top:30px;
+      margin-top:0;
       margin-bottom:40px;
   }
 
@@ -23,6 +24,9 @@
       margin:0;
   }
 
+  header {
+    background-color:  #5088ad;
+  }
 
   main {
       display:flex;
@@ -73,13 +77,13 @@
     color: #FFFFFF;
     text-align: center;
     padding-top:10px;
-    background-color: rgb(141, 35, 35);
+    background-color: rgb(206, 57, 51);
 
     
  }
  
  .btn-game:hover {   
-    background: #1C8F23;
+    background: #29a078;
     border-radius: 20px;
    
  }
@@ -113,12 +117,20 @@
 
  /* ---FOOTER STYLING--- */
 
+ footer {
+  width: 100%;
+ }
+
  #credits {
     font-size: 0.7rem;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     letter-spacing: normal;
-    margin:50px 20px 0 20px;
+    margin-top:50px;
     text-align: center;
+    background-color: #5088ad;
+    padding-top: 20px;
+    padding-bottom:20px;
+  
   }
 
   #credits h6 {
