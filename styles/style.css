@@ -95,8 +95,6 @@
  }
 
  canvas {
-
-    background-color: rgb(126, 121, 121);
     border:1px solid black;
 }
 
@@ -111,7 +109,8 @@
     font-size: 0.7rem;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     letter-spacing: normal;
-    margin:20px;
+    margin:50px 20px 0 20px;
+    text-align: center;
   }
 
   #credits h6 {
