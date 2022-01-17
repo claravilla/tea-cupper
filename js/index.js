@@ -67,11 +67,11 @@ const game = {
 //CLASS COMPONENT USED TO CREATE ALL OBJECTS IN THE CANVAS
 
 class Component {
-  constructor(width, height, color, x, y, speed) {
+  constructor(width, height, img, x, y, speed) {
     this.width = width;
     this.height = height;
-    // this.img = img;
-    this.color = color;
+    this.img = img;
+    // this.color = color;
     this.x = x;
     this.y = y;
     this.speed = speed;
@@ -81,9 +81,9 @@ class Component {
     // let compImg = new Image();
     // compImg.src = this.img;
     // compImg.onload = () => {
-    // ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-    ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    // ctx.fillStyle = this.color;
+    // ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 
   resetPosition() {
@@ -146,13 +146,12 @@ class Component {
 
 //GAME VARIABLES
 
-// const teaCup = new Component(43, 40, teaCupImg, 570, 323, 10);
-const teaCup = new Component(43, 40, "green", 570, 323, 10);
+const teaCup = new Component(43, 40, teaCupImg, 570, 323, 10);
+// const teaCup = new Component(43, 40, "green", 570, 323, 10);
 
 const cupCakeColors = ["blue", "red", "orange", "yellow", "purple", "aqua"];
 
 const cupCakeImgs = [
-  ,
   cupCakeImg1,
   cupCakeImg2,
   cupCakeImg3,
@@ -166,7 +165,7 @@ let cupCakeXPosition = 0;
 let cupCakes = [];
 let cupCake;
 
-let gameTime = 30;
+let gameTime = 29;
 
 //--------FUNCTIONS------
 
@@ -184,8 +183,8 @@ function drawInitialCupCakes() {
     cupCake = new Component(
       65,
       70,
-      // randomArrayElement(cupCakeImgs),
-      randomArrayElement(cupCakeColors),
+      randomArrayElement(cupCakeImgs),
+      // randomArrayElement(cupCakeColors),
       cupCakeXPosition,
       randomArrayElement(cupCakeYPositions),
       0.5
@@ -210,8 +209,8 @@ function createNewCupCake() {
     cupCake = new Component(
       65,
       70,
-      // randomArrayElement(cupCakeImgs),
-      randomArrayElement(cupCakeColors),
+      randomArrayElement(cupCakeImgs),
+      // randomArrayElement(cupCakeColors),
       1200,
       randomArrayElement(cupCakeYPositions),
       0.5
