@@ -99,7 +99,8 @@
  }
 
  #canvas {
-    border:1px solid black;
+    border:5px solid rgb(211, 182, 20);
+    border-radius: 5px;
 }
 
 .timebar {

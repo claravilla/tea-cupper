@@ -8,6 +8,15 @@ const ctxTimer = canvasTimer.getContext("2d");
 
 //IMAGES VARIABLES
 
+const safeRowImgTop = new Image();
+safeRowImgTop.src = "./images/wooden-top.jpg";
+
+const safeRowImgBottom = new Image();
+safeRowImgBottom.src = "./images/wooden-bottom.jpg";
+
+const backGroundImg = new Image ();
+backGroundImg.src = "./images/cloth.jpg";
+
 const teaPotImg = new Image();
 teaPotImg.src = "./images/teapot.png";
 
@@ -59,11 +68,9 @@ const game = {
   },
 
   createBoard: function () {
-    ctx.fillStyle = "#7C99AC";
-    ctx.fillRect(0, safeRowHeight, canvas.width, canvas.height - safeRowHeight);
-    ctx.fillStyle = "#ddb8b8";
-    ctx.fillRect(0, 0, canvas.width, safeRowHeight);
-    ctx.fillRect(0, canvas.height - safeRowHeight, canvas.width, safeRowHeight);
+    ctx.drawImage(backGroundImg,0, safeRowHeight-1, canvas.width, canvas.height - safeRowHeight);
+    ctx.drawImage(safeRowImgTop,0,0,canvas.width, safeRowHeight-1);
+    ctx.drawImage(safeRowImgBottom,0, canvas.height - safeRowHeight,canvas.width, safeRowHeight );
     ctx.drawImage(teaPotImg, canvas.width - 70, 5, 70, 70);
   },
 
