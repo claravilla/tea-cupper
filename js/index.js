@@ -427,7 +427,6 @@ const kettle = {
 
 function moveTimer() {
   if (gameTime > 0) {
-    console.log(gameTime);
     ctxTimer.fillStyle = "white";
     ctxTimer.fillRect(0, 0, canvasTimer.width, canvasTimer.height);
     kettle.x += kettle.width;
@@ -511,3 +510,20 @@ document.querySelector(".btn-game").addEventListener("click", function () {
   kettle.startTimer();
   // startSugarRush() ;
 });
+
+
+//AUDIO ON/OFF
+document.querySelector(".sound-img").addEventListener("click",function(){
+
+  winSound.muted = !winSound.muted;
+  gameOverSound.muted=!gameOverSound.muted;
+  crashSound.muted =!crashSound.muted;
+
+  if (document.querySelector(".sound-img").src.includes("-off")) {
+    document.querySelector(".sound-img").setAttribute("src","./images/sound-on.PNG");
+  } else {
+    document.querySelector(".sound-img").setAttribute("src","./images/sound-off.PNG");
+  }
+
+})
+

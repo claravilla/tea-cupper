@@ -102,17 +102,27 @@
     border:1px solid black;
 }
 
-#sounds {
-    align-self: flex-start;
+.timebar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.sound-img {
+  border-radius: 50%;
+  width:55px;
+  display: inline-block;
+  margin:0 50px 0 0;
 }
 
 #timer {
   display:flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  margin-bottom:20px;
+  
 }
 
 #timer h2 {
-  margin-right:20px;
+  margin:0 20px;
 }
 
  /* ---FOOTER STYLING--- */
