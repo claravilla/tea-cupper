@@ -72,6 +72,7 @@ const game = {
     ctx.drawImage(safeRowImgTop,0,0,canvas.width, safeRowHeight-1);
     ctx.drawImage(safeRowImgBottom,0, canvas.height - safeRowHeight,canvas.width, safeRowHeight );
     ctx.drawImage(teaPotImg, canvas.width - 70, 5, 70, 70);
+    drawLives(lives);
   },
 
   stop: function () {
@@ -171,6 +172,7 @@ class obstaclesConfig {
 const gridSize = 75;
 const safeRowHeight=85;
 const playerSpeed = 10;
+let lives = 4;
 
 let gameTime = 29;
 
@@ -348,27 +350,64 @@ function checkCrash() {
   cupCakes.some(function (eachCupCake) {
     if (teaCup.crashWith(eachCupCake)) {
       crashSound.play();
-      teaCup.resetPosition();
-      teaCup.draw();
+      lives--;
+      if (lives>0){
+        console.log(lives);
+        teaCup.resetPosition();
+        teaCup.draw();
+        drawLives(lives)
+      } else {
+        console.log(lives);
+        drawLives(lives)
+        gameOver();
+      }
     }
   });
 
   cookiesJars.some(function (eachCookiesJar) {
     if (teaCup.crashWith(eachCookiesJar)) {
       crashSound.play();
-      teaCup.resetPosition();
-      teaCup.draw();
+      lives--;
+      if (lives>0){
+        teaCup.resetPosition();
+        teaCup.draw();
+        drawLives(lives)
+      } else {
+        drawLives(lives)
+        gameOver();
+      }
     }
   });
 
   cookiesJarsTop.some(function (eachCookiesJar) {
     if (teaCup.crashWith(eachCookiesJar)) {
       crashSound.play();
-      teaCup.resetPosition();
-      teaCup.draw();
+      lives--;
+      if (lives>0){
+        teaCup.resetPosition();
+        teaCup.draw();
+        drawLives(lives)
+      } else {
+        createBoard();
+        gameOver();
+      }
     }
+
   });
+
+  
 }
+
+//DRAW LIVES 
+
+function drawLives (numberOfLives){
+  let x=5;
+  for (let i=1;i<=numberOfLives;i++) {
+    ctx.drawImage(teaCupImg, x, 5, 20, 20);
+    x+=25;
+  }
+}
+
 
 //CHECK IF WIN GAME
 
