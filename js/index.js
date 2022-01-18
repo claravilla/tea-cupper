@@ -393,7 +393,7 @@ function gameOver() {
 //TIMER
 
 const kettle = {
-  x: 0,
+  x: 5,
   y: 0,
   width: 30,
   height: 25,
@@ -416,8 +416,12 @@ function moveTimer() {
     ctxTimer.fillRect(0, 0, canvasTimer.width, canvasTimer.height);
     kettle.x += kettle.width;
     kettle.draw();
+    ctxTimer.fillStyle="red";
+    ctxTimer.fillRect(0,0,kettle.x,25);
     gameTime--;
   } else {
+    ctxTimer.fillRect(0,0,905,25)
+    kettle.draw();
     gameOver();
   }
 }
@@ -432,6 +436,7 @@ function updateGameArea() {
   createNewObstacles();
   checkCrash();
   winGame();
+  
 }
 
 // ---EVENT LISTENERS---

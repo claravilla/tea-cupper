@@ -4,8 +4,8 @@
   }
 
   body {
-      background-color: #c0fcfd;
-      font-family: 'Orbitron', sans-serif;
+      background-color: rgb(122, 150, 122);
+      font-family: 'VT323', monospace;
       letter-spacing: 0.7rem;
       margin:0;
       
@@ -14,18 +14,17 @@
   h1 {
       font-size: 7rem;
       font-family: arcade;
-      color: white;
+      background-color: black;
+      color:green;
       text-align: center;
-      margin-top:0;
-      margin-bottom:40px;
+      border-radius: 75px 0px 75px 0px ;
+      margin: 0 auto 40px;
+      width: 80%;
   }
 
   h2 {
       margin:0;
-  }
-
-  header {
-    background-color:  #5088ad;
+      font-size: 3rem;
   }
 
   main {
@@ -51,9 +50,10 @@
 
   #intro p {
       margin: 20px 300px;
+      font-size: 1.5rem;
   }
 
-  @media (max-width: 1635px) {
+  @media (max-width: 1361px) {
     #intro p {
         margin: 50px 200px;
     }
@@ -74,17 +74,17 @@
     letter-spacing: 0.7rem;;
     font-size: 30px;
     font-weight: 100;
-    color: #FFFFFF;
     text-align: center;
-    padding-top:10px;
-    background-color: rgb(206, 57, 51);
+    background-color: rgb(255, 255, 34);
+    margin-top: 10px;
 
     
  }
  
  .btn-game:hover {   
-    background: #29a078;
+    background: green;
     border-radius: 20px;
+    cursor: pointer;
    
  }
 
@@ -99,7 +99,7 @@
  }
 
  #canvas {
-    border:5px solid rgb(211, 182, 20);
+    border:5px solid rgb(255, 255, 34) ;
     border-radius: 5px;
 }
 
@@ -110,20 +110,25 @@
 }
 .sound-img {
   border-radius: 50%;
-  width:55px;
+  width:40px;
   display: inline-block;
   margin:0 50px 0 0;
 }
 
+#timebar {
+  border-radius: 25px;
+}
 #timer {
   display:flex;
   justify-content: space-between;
+  align-items: flex-end;
   margin-bottom:20px;
   
 }
 
 #timer h2 {
   margin:0 20px;
+  font-size: 2rem;
 }
 
  /* ---FOOTER STYLING--- */
@@ -138,14 +143,13 @@
     letter-spacing: normal;
     margin-top:50px;
     text-align: center;
-    background-color: #5088ad;
     padding-top: 20px;
     padding-bottom:20px;
   
   }
 
   #credits h6 {
-    font-size: 0.5rem;
+    font-size: 0.7rem;
     font-weight: bold;
     margin:0;
   }
