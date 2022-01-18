@@ -245,26 +245,8 @@ function drawInitialCupCakes() {
     cookiesJarsTop.push(cookiesJar);
   }
 
-  // drawCookiesJars(cookiesJarSpeed,cookiesJarXPosition,cookiesJarYposition,cookiesJars);
-  // drawCookiesJars(cookiesJarTopSpeed,cookiesJarTopXPosition,cookiesJarTopYposition,cookiesJarsTop);
 }
 
-//FUNCTION TO DRAW INITIAL COOKIES JARS
-//  function drawCookiesJars(speed,posX,posY,arr) {
-//   for (let i = 0; i < 6; i++) {
-//     cookiesJar = new Component(
-//       150,
-//       70,
-//       cookiesImg,
-//       posX,
-//       posY,
-//       speed
-//     );
-//     cookiesJar.draw();
-//     cookiesJarXPosition += 300;
-//    arr.push(cookiesJar);
-//   }
-//  }
 
 //MOVE OBSTACLES
 function moveCupcakes() {
@@ -373,38 +355,6 @@ function gameOver() {
   gameOverSound.play();
 }
 
-//INCREASE/DECREASE SPEED OF CUPCAKES EVERY 7 SEC
-// function startSugarRush() {
-//   sugarRush = setInterval(function(){
-//     cupCakeSpeed*=2;
-//     cookiesJarSpeed*=2;
-//     cupCakes.forEach(function(eachCupCake){
-//       eachCupCake.speed*=2;
-//     })
-//     cookiesJars.forEach(function(eachCookiesJar){
-//       eachCookiesJar.speed*=2;
-//     })
-// },7000);
-
-//   clearSugarRush = setInterval(function(){
-//     cupCakeSpeed/=2;
-//     cookiesJarSpeed/=2;
-//   cupCakes.forEach(function(eachCupCake){
-//     eachCupCake.speed/=2;
-//   })
-//   cookiesJars.forEach(function(eachCookiesJar){
-//     eachCookiesJar.speed/=2;
-//   })
-
-// },8500);
-
-// }
-
-// function resetSugarRush(){
-//   clearInterval(sugarRush);
-//   clearInterval(clearSugarRush);
-// }
-
 //TIMER
 
 const kettle = {
@@ -505,10 +455,10 @@ document.querySelector(".btn-game").addEventListener("click", function () {
   //add eventlistener to arrow keys to move the player
   addControlEvents();
 
-  //start game, timer and obstacle changing speed
+  //start game and timer
   game.start();
   kettle.startTimer();
-  // startSugarRush() ;
+ 
 });
 
 
