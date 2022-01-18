@@ -60,10 +60,10 @@ const game = {
 
   createBoard: function () {
     ctx.fillStyle = "#7C99AC";
-    ctx.fillRect(0, 85, canvas.width, canvas.height - 85);
+    ctx.fillRect(0, safeRowHeight, canvas.width, canvas.height - safeRowHeight);
     ctx.fillStyle = "#ddb8b8";
-    ctx.fillRect(0, 0, canvas.width, 85);
-    ctx.fillRect(0, canvas.height - 85, canvas.width, 85);
+    ctx.fillRect(0, 0, canvas.width, safeRowHeight);
+    ctx.fillRect(0, canvas.height - safeRowHeight, canvas.width, safeRowHeight);
     ctx.drawImage(teaPotImg, canvas.width - 70, 5, 70, 70);
   },
 
@@ -146,46 +146,75 @@ class Component {
   }
 }
 
+//CLASS TO GROUP ALL OBSTACLES DETAILS IN ONE PLACE
+
+class obstaclesConfig {
+  constructor(width,height,img,speed,posX,posY){
+    this.width=width;
+    this.height=height;
+    this.img = img;
+    this.speed = speed;
+    this.posX = posX;
+    this.posY = posY
+  }
+}
+
 //GAME VARIABLES
 
-let playerSpeed = 10;
-
-const cupCakeImgs = [
-  cupCakeImg1,
-  cupCakeImg2,
-  cupCakeImg3,
-  cupCakeImg4,
-  cupCakeImg5,
-  cupCakeImg6,
-];
-
-let cupCake, cookiesJar;
-
-const cupCakeYPositions = [
-  canvas.height - 85 - 70,
-  canvas.height - 85 - 70 - 70 - 70,
-]; //bottom and third row;
-let cupCakeXPosition = 0;
-let cupCakes = [];
-
-let cookiesJars = [];
-const cookiesJarYposition = canvas.height - 85 - 70 - 70; //second row
-let cookiesJarXPosition = 0;
-
-let cookiesJarsTop = [];
-const cookiesJarTopYposition = 85;
-let cookiesJarTopXPosition = -150;
-
-let cupCakeSpeed = 0.5;
-let cookiesJarSpeed = 1.5;
-let cookiesJarTopSpeed = -2;
+const gridSize = 75;
+const safeRowHeight=85;
+const playerSpeed = 10;
 
 let gameTime = 29;
-let sugarRush, clearSugarRush;
+
+let cupCakeConfig = new obstaclesConfig (
+    65,
+    70,
+    [
+      cupCakeImg1,
+      cupCakeImg2,
+      cupCakeImg3,
+      cupCakeImg4,
+      cupCakeImg5,
+      cupCakeImg6,
+    ],
+    0.5,
+    0,
+    [
+      canvas.height - safeRowHeight - gridSize,    //bottom and 3rd row
+      canvas.height - safeRowHeight - 3*gridSize,
+    ]
+);
+
+
+let cookiesJarLowConfig = new obstaclesConfig (
+  140,
+  70,
+  cookiesImg,
+  1.5,
+  0,
+  canvas.height - safeRowHeight - 2*gridSize, //second row
+  );
+
+  let cookiesJarHighConfig = new obstaclesConfig(
+  140,
+  70,
+  cookiesImg,
+  -2,
+  -2*gridSize,
+  safeRowHeight
+  );
+
+
+let cupCake, cookiesJar; 
+let cupCakes = [];
+let cookiesJars = [];
+let cookiesJarsTop = [];
+
 
 const teaCup = new Component(
-  43,
-  40,
+  47,
+  44,
   teaCupImg,
   (canvas.width - 43) / 2,
   canvas.height - 60,
@@ -202,46 +231,46 @@ function randomArrayElement(arr) {
 
 //CREATE THE FIRST OBSTACLES FOR THE START OF THE GAME
 
-function drawInitialCupCakes() {
-  for (let i = 0; i < 17; i += 2) {
+function drawInitialObstacles() { 
+  for (let i = 0; i < 17; i += 2) {       //cupcakes row 1 and 3
     cupCake = new Component(
-      65,
-      70,
-      randomArrayElement(cupCakeImgs),
-      cupCakeXPosition,
-      randomArrayElement(cupCakeYPositions),
-      cupCakeSpeed
+      cupCakeConfig.width,
+      cupCakeConfig.height,
+      randomArrayElement(cupCakeConfig.img),
+      cupCakeConfig.posX,
+      randomArrayElement(cupCakeConfig.posY),
+      cupCakeConfig.speed
     );
     cupCake.draw();
-    cupCakeXPosition += 150;
+    cupCakeConfig.posX += 2*gridSize;
     cupCakes.push(cupCake);
   }
 
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 6; i++) {    //cookies jars row 2
     cookiesJar = new Component(
-      150,
-      70,
-      cookiesImg,
-      cookiesJarXPosition,
-      cookiesJarYposition,
-      cookiesJarSpeed
+      cookiesJarLowConfig.width,
+      cookiesJarLowConfig.height,
+      cookiesJarLowConfig.img,
+      cookiesJarLowConfig.posX,
+      cookiesJarLowConfig.posY,
+      cookiesJarLowConfig.speed
     );
     cookiesJar.draw();
-    cookiesJarXPosition += 300;
+    cookiesJarLowConfig.posX += 4*gridSize;
     cookiesJars.push(cookiesJar);
   }
 
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 6; i++) {    //cookies jars row 4
     cookiesJar = new Component(
-      150,
-      70,
-      cookiesImg,
-      cookiesJarTopXPosition,
-      cookiesJarTopYposition,
-      cookiesJarTopSpeed
+      cookiesJarHighConfig.width,
+      cookiesJarHighConfig.height,
+      cookiesJarHighConfig.img,
+      cookiesJarHighConfig.posX,
+      cookiesJarHighConfig.posY,
+      cookiesJarHighConfig.speed
     );
     cookiesJar.draw();
-    cookiesJarTopXPosition += 300;
+    cookiesJarHighConfig.posX += 4*gridSize;
     cookiesJarsTop.push(cookiesJar);
   }
 
@@ -249,7 +278,7 @@ function drawInitialCupCakes() {
 
 
 //MOVE OBSTACLES
-function moveCupcakes() {
+function moveObstacles() {
   cupCakes.forEach(function (eachCupCake) {
     eachCupCake.x -= eachCupCake.speed;
     eachCupCake.draw();
@@ -267,40 +296,41 @@ function moveCupcakes() {
 }
 
 //CREATE NEW OBSTACLES
-function createNewCupCake() {
+function createNewObstacles() {
   if (game.frame % 280 === 0) {
     cupCake = new Component(
-      65,
-      70,
-      randomArrayElement(cupCakeImgs),
+      cupCakeConfig.width,
+      cupCakeConfig.height,
+      randomArrayElement(cupCakeConfig.img),
       canvas.width,
-      randomArrayElement(cupCakeYPositions),
-      cupCakeSpeed
+      randomArrayElement(cupCakeConfig.posY),
+      cupCakeConfig.speed
     );
     cupCakes.push(cupCake);
   }
 
   if (game.frame % 200 === 0) {
     cookiesJar = new Component(
-      150,
-      70,
-      cookiesImg,
+      cookiesJarLowConfig.width,
+      cookiesJarLowConfig.height,
+      cookiesJarLowConfig.img,
       canvas.width,
-      cookiesJarYposition,
-      cookiesJarSpeed
+      cookiesJarLowConfig.posY,
+      cookiesJarLowConfig.speed
     );
     cookiesJars.push(cookiesJar);
   }
 
   if (game.frame % 150 === 0) {
     cookiesJar = new Component(
-      150,
-      70,
-      cookiesImg,
-      -150,
-      cookiesJarTopYposition,
-      cookiesJarTopSpeed
+      cookiesJarHighConfig.width,
+      cookiesJarHighConfig.height,
+      cookiesJarHighConfig.img,
+      -2*gridSize,
+      cookiesJarHighConfig.posY,
+      cookiesJarHighConfig.speed
     );
+
     cookiesJarsTop.push(cookiesJar);
   }
 }
@@ -339,7 +369,6 @@ function winGame() {
   if (teaCup.x > 1120 && teaCup.y <= 33) {
     game.stop();
     kettle.stopTimer();
-    // resetSugarRush();
     ctx.drawImage(youWinImg, 400, 120, 400, 100);
     winSound.play();
   }
@@ -350,7 +379,6 @@ function winGame() {
 function gameOver() {
   game.stop();
   kettle.stopTimer();
-  // resetSugarRush();
   ctx.drawImage(gameOverImg, 500, 140, 320, 110);
   gameOverSound.play();
 }
@@ -393,8 +421,8 @@ function updateGameArea() {
   game.frame++;
   game.createBoard();
   teaCup.draw();
-  moveCupcakes();
-  createNewCupCake();
+  moveObstacles();
+  createNewObstacles();
   checkCrash();
   winGame();
 }
@@ -405,7 +433,7 @@ function updateGameArea() {
 window.onload = () => {
   game.createBoard();
   teaCup.draw();
-  drawInitialCupCakes();
+  drawInitialObstacles();
   ctxTimer.fillStyle = "white";
   ctxTimer.fillRect(0, 0, canvasTimer.width, canvasTimer.height);
   kettle.draw();
