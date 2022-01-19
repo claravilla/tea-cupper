@@ -53,14 +53,14 @@
       font-size: 1.5rem;
   }
 
-  @media (max-width: 1361px) {
+  @media (max-width: 1548px) {
     #intro p {
         margin: 50px 200px;
     }
   }
 
 
-  @media (max-width: 1280px) {
+  @media (max-width: 1345px) {
     #intro p {
         margin: 50px 100px;
     }

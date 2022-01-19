@@ -190,7 +190,7 @@ let lives = 5;
 let gameTime = 29;
 let gameSpeed = 1;
 let speedInterval, clearSpeedInterval;
-const gameSpeedValues=[0.5,3];
+const gameSpeedValues = [0.5, 3];
 
 //OBSTACLES AND PLAYER VARIABLES
 
@@ -361,7 +361,7 @@ function createNewObstacles() {
   }
 }
 
-//CHECK IF TEACUP CRASHED AND RETURN TO START POSITION
+//CHECK IF TEACUP CRASHED
 
 function checkCrash() {
   cupCakes.some(function (eachCupCake) {
@@ -422,13 +422,30 @@ function drawLives(numberOfLives) {
   }
 }
 
+//INCREASE SPEED OF GAME
+
+function modifySpeed() {
+  speedInterval = setInterval(function () {
+    gameSpeed = randomArrayElement(gameSpeedValues);
+    console.log("speed change");
+    revertSpeed();
+  }, 7000);
+}
+
+function revertSpeed() {
+  clearSpeedInterval = setTimeout(function () {
+    gameSpeed = 1;
+    console.log("speed reset");
+  }, 2000);
+}
+
 //CHECK IF WIN GAME
 
 function winGame() {
   if (teaCup.x > 1120 && teaCup.y <= 33) {
     game.stop();
     kettle.stopTimer();
-    ctx.drawImage(youWinImg, 400, 120, 400, 100);
+    ctx.drawImage(youWinImg, 450, 170, 400, 100);
     winSound.play();
     clearInterval(speedInterval);
     clearInterval(clearSpeedInterval);
@@ -440,32 +457,11 @@ function winGame() {
 function gameOver() {
   game.stop();
   kettle.stopTimer();
-  ctx.drawImage(gameOverImg, 500, 140, 320, 110);
+  ctx.drawImage(gameOverImg, 500, 160, 350, 110);
   gameOverSound.play();
   clearInterval(speedInterval);
   clearInterval(clearSpeedInterval);
 }
-
-
-//INCREASE SPEED OF GAME
-
-function modifySpeed () {
- speedInterval = setInterval(function(){
-     gameSpeed = randomArrayElement(gameSpeedValues);
-     console.log("speed change");
-     revertSpeed();
-   },7000)
-}
-
-function revertSpeed() {
-  clearSpeedInterval = setTimeout(function(){
-    gameSpeed= 1;
-    console.log("speed reset");
-  },2000)
-
-
-}
-
 
 //TIMER
 
@@ -581,7 +577,7 @@ document.querySelector(".btn-game").addEventListener("click", function () {
   revertSpeed();
 });
 
-//AUDIO ON/OFF
+//EVENT LISTENER FOR AUDIO ON/OFF
 document.querySelector(".sound-img").addEventListener("click", function () {
   winSound.muted = !winSound.muted;
   gameOverSound.muted = !gameOverSound.muted;
