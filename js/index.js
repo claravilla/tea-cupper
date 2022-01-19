@@ -14,7 +14,7 @@ safeRowImgTop.src = "./images/wooden-top.jpg";
 const safeRowImgBottom = new Image();
 safeRowImgBottom.src = "./images/wooden-bottom.jpg";
 
-const backGroundImg = new Image ();
+const backGroundImg = new Image();
 backGroundImg.src = "./images/cloth.jpg";
 
 const teaPotImg = new Image();
@@ -68,9 +68,21 @@ const game = {
   },
 
   createBoard: function () {
-    ctx.drawImage(backGroundImg,0, safeRowHeight-1, canvas.width, canvas.height - safeRowHeight);
-    ctx.drawImage(safeRowImgTop,0,0,canvas.width, safeRowHeight-1);
-    ctx.drawImage(safeRowImgBottom,0, canvas.height - safeRowHeight,canvas.width, safeRowHeight );
+    ctx.drawImage(
+      backGroundImg,
+      0,
+      safeRowHeight - 1,
+      canvas.width,
+      canvas.height - safeRowHeight
+    );
+    ctx.drawImage(safeRowImgTop, 0, 0, canvas.width, safeRowHeight - 1);
+    ctx.drawImage(
+      safeRowImgBottom,
+      0,
+      canvas.height - safeRowHeight,
+      canvas.width,
+      safeRowHeight
+    );
     ctx.drawImage(teaPotImg, canvas.width - 70, 5, 70, 70);
     drawLives(lives);
   },
@@ -157,69 +169,72 @@ class Component {
 //CLASS TO GROUP ALL OBSTACLES DETAILS IN ONE PLACE
 
 class obstaclesConfig {
-  constructor(width,height,img,speed,posX,posY){
-    this.width=width;
-    this.height=height;
+  constructor(width, height, img, speed, posX, posY) {
+    this.width = width;
+    this.height = height;
     this.img = img;
     this.speed = speed;
     this.posX = posX;
-    this.posY = posY
+    this.posY = posY;
   }
 }
 
 //GAME VARIABLES
 
 const gridSize = 75;
-const safeRowHeight=85;
+const safeRowHeight = 85;
+
 const playerSpeed = 10;
 let lives = 5;
 
 let gameTime = 29;
+let gameSpeed = 1;
+let speedInterval, clearSpeedInterval;
+const gameSpeedValues=[0.5,3];
 
-let cupCakeConfig = new obstaclesConfig (
-    65,
-    70,
-    [
-      cupCakeImg1,
-      cupCakeImg2,
-      cupCakeImg3,
-      cupCakeImg4,
-      cupCakeImg5,
-      cupCakeImg6,
-    ],
-    0.5,
-    0,
-    [
-      canvas.height - safeRowHeight - gridSize,    //bottom and 3rd row
-      canvas.height - safeRowHeight - 3*gridSize,
-    ]
+//OBSTACLES AND PLAYER VARIABLES
+
+let cupCakeConfig = new obstaclesConfig(
+  65,
+  70,
+  [
+    cupCakeImg1,
+    cupCakeImg2,
+    cupCakeImg3,
+    cupCakeImg4,
+    cupCakeImg5,
+    cupCakeImg6,
+  ],
+  gameSpeed * 0.5,
+  0,
+  [
+    canvas.height - safeRowHeight - gridSize, //bottom and 3rd row
+    canvas.height - safeRowHeight - 3 * gridSize,
+  ]
 );
 
-
-let cookiesJarLowConfig = new obstaclesConfig (
+let cookiesJarLowConfig = new obstaclesConfig(
   140,
   70,
   cookiesImg,
-  1.5,
+  gameSpeed * 1.5,
   0,
-  canvas.height - safeRowHeight - 2*gridSize, //second row
-  );
+  canvas.height - safeRowHeight - 2 * gridSize //second row
+);
 
-  let cookiesJarHighConfig = new obstaclesConfig(
+let cookiesJarHighConfig = new obstaclesConfig(
   140,
   70,
   cookiesImg,
-  -2,
-  -2*gridSize,
+  gameSpeed * -2,
+  -2 * gridSize,
   safeRowHeight
-  );
+);
 
-
-let cupCake, cookiesJar; 
+let cupCake, cookiesJar;
 let cupCakes = [];
 let cookiesJars = [];
 let cookiesJarsTop = [];
-
 
 const teaCup = new Component(
   47,
@@ -240,8 +255,9 @@ function randomArrayElement(arr) {
 
 //CREATE THE FIRST OBSTACLES FOR THE START OF THE GAME
 
-function drawInitialObstacles() { 
-  for (let i = 0; i < 17; i += 2) {       //cupcakes row 1 and 3
+function drawInitialObstacles() {
+  for (let i = 0; i < 17; i += 2) {
+    //cupcakes row 1 and 3
     cupCake = new Component(
       cupCakeConfig.width,
       cupCakeConfig.height,
@@ -251,11 +267,12 @@ function drawInitialObstacles() {
       cupCakeConfig.speed
     );
     cupCake.draw();
-    cupCakeConfig.posX += 2*gridSize;
+    cupCakeConfig.posX += 2 * gridSize;
     cupCakes.push(cupCake);
   }
 
-  for (let i = 0; i < 6; i++) {    //cookies jars row 2
+  for (let i = 0; i < 6; i++) {
+    //cookies jars row 2
     cookiesJar = new Component(
       cookiesJarLowConfig.width,
       cookiesJarLowConfig.height,
@@ -265,11 +282,12 @@ function drawInitialObstacles() {
       cookiesJarLowConfig.speed
     );
     cookiesJar.draw();
-    cookiesJarLowConfig.posX += 4*gridSize;
+    cookiesJarLowConfig.posX += 4 * gridSize;
     cookiesJars.push(cookiesJar);
   }
 
-  for (let i = 0; i < 6; i++) {    //cookies jars row 4
+  for (let i = 0; i < 6; i++) {
+    //cookies jars row 4
     cookiesJar = new Component(
       cookiesJarHighConfig.width,
       cookiesJarHighConfig.height,
@@ -279,12 +297,10 @@ function drawInitialObstacles() {
       cookiesJarHighConfig.speed
     );
     cookiesJar.draw();
-    cookiesJarHighConfig.posX += 4*gridSize;
+    cookiesJarHighConfig.posX += 4 * gridSize;
     cookiesJarsTop.push(cookiesJar);
   }
-
 }
-
 
 //MOVE OBSTACLES
 function moveObstacles() {
@@ -306,7 +322,7 @@ function moveObstacles() {
 
 //CREATE NEW OBSTACLES
 function createNewObstacles() {
-  if (game.frame % 280 === 0) {
+  if (game.frame % ((gridSize * 2) / cupCakeConfig.speed) === 0) {
     cupCake = new Component(
       cupCakeConfig.width,
       cupCakeConfig.height,
@@ -318,7 +334,8 @@ function createNewObstacles() {
     cupCakes.push(cupCake);
   }
 
-  if (game.frame % 200 === 0) {
+  if (game.frame % ((gridSize * 4) / cookiesJarLowConfig.speed) === 0) {
+    //
     cookiesJar = new Component(
       cookiesJarLowConfig.width,
       cookiesJarLowConfig.height,
@@ -330,12 +347,12 @@ function createNewObstacles() {
     cookiesJars.push(cookiesJar);
   }
 
-  if (game.frame % 150 === 0) {
+  if (game.frame % ((gridSize * 4) / cookiesJarHighConfig.speed) === 0) {
     cookiesJar = new Component(
       cookiesJarHighConfig.width,
       cookiesJarHighConfig.height,
       cookiesJarHighConfig.img,
-      -2*gridSize,
+      -2 * gridSize,
       cookiesJarHighConfig.posY,
       cookiesJarHighConfig.speed
     );
@@ -351,14 +368,14 @@ function checkCrash() {
     if (teaCup.crashWith(eachCupCake)) {
       crashSound.play();
       lives--;
-      if (lives>0){
+      if (lives > 0) {
         console.log(lives);
         teaCup.resetPosition();
         teaCup.draw();
-        drawLives(lives)
+        drawLives(lives);
       } else {
         console.log(lives);
-        drawLives(lives)
+        drawLives(lives);
         gameOver();
       }
     }
@@ -368,12 +385,12 @@ function checkCrash() {
     if (teaCup.crashWith(eachCookiesJar)) {
       crashSound.play();
       lives--;
-      if (lives>0){
+      if (lives > 0) {
         teaCup.resetPosition();
         teaCup.draw();
-        drawLives(lives)
+        drawLives(lives);
       } else {
-        drawLives(lives)
+        drawLives(lives);
         gameOver();
       }
     }
@@ -383,31 +400,27 @@ function checkCrash() {
     if (teaCup.crashWith(eachCookiesJar)) {
       crashSound.play();
       lives--;
-      if (lives>0){
+      if (lives > 0) {
         teaCup.resetPosition();
         teaCup.draw();
-        drawLives(lives)
+        drawLives(lives);
       } else {
         createBoard();
         gameOver();
       }
     }
-
   });
-
-  
 }
 
-//DRAW LIVES 
+//DRAW LIVES
 
-function drawLives (numberOfLives){
-  let x=5;
-  for (let i=0;i<numberOfLives-1;i++) {
+function drawLives(numberOfLives) {
+  let x = 5;
+  for (let i = 0; i < numberOfLives - 1; i++) {
     ctx.drawImage(teaCupImg, x, 5, 20, 20);
-    x+=25;
+    x += 25;
   }
 }
-
 
 //CHECK IF WIN GAME
 
@@ -417,6 +430,8 @@ function winGame() {
     kettle.stopTimer();
     ctx.drawImage(youWinImg, 400, 120, 400, 100);
     winSound.play();
+    clearInterval(speedInterval);
+    clearInterval(clearSpeedInterval);
   }
 }
 
@@ -427,7 +442,30 @@ function gameOver() {
   kettle.stopTimer();
   ctx.drawImage(gameOverImg, 500, 140, 320, 110);
   gameOverSound.play();
+  clearInterval(speedInterval);
+  clearInterval(clearSpeedInterval);
 }
+
+
+//INCREASE SPEED OF GAME
+
+function modifySpeed () {
+ speedInterval = setInterval(function(){
+     gameSpeed = randomArrayElement(gameSpeedValues);
+     console.log("speed change");
+     revertSpeed();
+   },7000)
+}
+
+function revertSpeed() {
+  clearSpeedInterval = setTimeout(function(){
+    gameSpeed= 1;
+    console.log("speed reset");
+  },2000)
+
+
+}
+
 
 //TIMER
 
@@ -450,16 +488,17 @@ const kettle = {
 };
 
 function moveTimer() {
+  console.log(gameTime);
   if (gameTime > 0) {
     ctxTimer.fillStyle = "white";
     ctxTimer.fillRect(0, 0, canvasTimer.width, canvasTimer.height);
     kettle.x += kettle.width;
     kettle.draw();
-    ctxTimer.fillStyle="red";
-    ctxTimer.fillRect(0,0,kettle.x,25);
+    ctxTimer.fillStyle = "red";
+    ctxTimer.fillRect(0, 0, kettle.x, 25);
     gameTime--;
   } else {
-    ctxTimer.fillRect(0,0,905,25)
+    ctxTimer.fillRect(0, 0, 905, 25);
     kettle.draw();
     gameOver();
   }
@@ -475,7 +514,6 @@ function updateGameArea() {
   createNewObstacles();
   checkCrash();
   winGame();
-  
 }
 
 // ---EVENT LISTENERS---
@@ -537,22 +575,25 @@ document.querySelector(".btn-game").addEventListener("click", function () {
   //start game and timer
   game.start();
   kettle.startTimer();
- 
+
+  //start random speed change
+  modifySpeed();
+  revertSpeed();
 });
 
-
 //AUDIO ON/OFF
-document.querySelector(".sound-img").addEventListener("click",function(){
-
+document.querySelector(".sound-img").addEventListener("click", function () {
   winSound.muted = !winSound.muted;
-  gameOverSound.muted=!gameOverSound.muted;
-  crashSound.muted =!crashSound.muted;
+  gameOverSound.muted = !gameOverSound.muted;
+  crashSound.muted = !crashSound.muted;
 
   if (document.querySelector(".sound-img").src.includes("-off")) {
-    document.querySelector(".sound-img").setAttribute("src","./images/sound-on.PNG");
+    document
+      .querySelector(".sound-img")
+      .setAttribute("src", "./images/sound-on.PNG");
   } else {
-    document.querySelector(".sound-img").setAttribute("src","./images/sound-off.PNG");
+    document
+      .querySelector(".sound-img")
+      .setAttribute("src", "./images/sound-off.PNG");
   }
-
-})
-
+});
