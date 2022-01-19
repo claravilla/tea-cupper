@@ -10,16 +10,16 @@ It's a browser rendered game built with:
 - CANVAS API (for the game itself)
 
 ## GAME RULES
-The plaver needs to cross the table and reach the teapot without crashing in any obstacles.  
-Player can move up down left right.  
-There are 2 "safe" rows (start and end) where there are no obstacles.  
-If the player crashes in an obstacle, it's reset to starting position, until the lives run out.  
-If the player reaches the teapot, it wins.  
-If the player runs out of lives, it loses.  
-If the time elapsed and the player hasn't reached the teapoit, it loses.  
+- The plaver needs to cross the table and reach the teapot without crashing in any obstacles.  
+- Player can move up down left right.  
+- There are 2 "safe" rows (start and end) where there are no obstacles.  
+- If the player crashes in an obstacle, it's reset to starting position, until the lives run out.  
+- If the player reaches the teapot, it wins.  
+- If the player runs out of lives, it loses.  
+- If the time elapsed and the player hasn't reached the teapoit, it loses.  
 
 ## HOW THE GAME WORKS
-The game is structured as a grid, where obstacles and player move.
+The game is structured as a grid, where obstacles and player move. All positioning is done following the grid and cells dimensions.
 
 ### GAME OBJECT
 The game updates every 20milliseconds and check if the player has crashed or won (and redraw the board).  
