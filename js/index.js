@@ -403,7 +403,6 @@ function checkCrash() {
         teaCup.draw();
         drawLives(lives);
       } else {
-        // game.createBoard();
         gameOver();
       }
     }
