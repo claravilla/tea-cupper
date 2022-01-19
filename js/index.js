@@ -369,12 +369,10 @@ function checkCrash() {
       crashSound.play();
       lives--;
       if (lives > 0) {
-        console.log(lives);
         teaCup.resetPosition();
         teaCup.draw();
         drawLives(lives);
       } else {
-        console.log(lives);
         drawLives(lives);
         gameOver();
       }
@@ -405,7 +403,7 @@ function checkCrash() {
         teaCup.draw();
         drawLives(lives);
       } else {
-        createBoard();
+        // game.createBoard();
         gameOver();
       }
     }
@@ -427,7 +425,6 @@ function drawLives(numberOfLives) {
 function modifySpeed() {
   speedInterval = setInterval(function () {
     gameSpeed = randomArrayElement(gameSpeedValues);
-    console.log("speed change");
     revertSpeed();
   }, 7000);
 }
@@ -435,7 +432,6 @@ function modifySpeed() {
 function revertSpeed() {
   clearSpeedInterval = setTimeout(function () {
     gameSpeed = 1;
-    console.log("speed reset");
   }, 2000);
 }
 
@@ -484,7 +480,6 @@ const kettle = {
 };
 
 function moveTimer() {
-  console.log(gameTime);
   if (gameTime > 0) {
     ctxTimer.fillStyle = "white";
     ctxTimer.fillRect(0, 0, canvasTimer.width, canvasTimer.height);
