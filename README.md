@@ -16,7 +16,7 @@ It's a browser rendered game built with:
 - If the player crashes into an obstacle, it's reset to starting position, until the lives run out.  
 - If the player reaches the teapot, it wins.  
 - If the player runs out of lives, it loses.  
-- If the time elapsed and the player hasn't reached the teapoit, it loses.  
+- If the time elapsed and the player hasn't reached the teapot, it loses.  
 
 ## HOW THE GAME WORKS
 The game is structured as a grid, where obstacles and player move. All positioning is done following the grid and cells dimensions.
