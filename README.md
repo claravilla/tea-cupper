@@ -10,10 +10,10 @@ It's a browser rendered game built with:
 - CANVAS API (for the game itself)
 
 ## GAME RULES
-- The plaver needs to cross the table and reach the teapot without crashing in any obstacles.  
-- Player can move up down left right.  
+- The player needs to cross the table and reach the teapot without crashing into any obstacle.  
+- Player can move up down left right within the game board.  
 - There are 2 "safe" rows (start and end) where there are no obstacles.  
-- If the player crashes in an obstacle, it's reset to starting position, until the lives run out.  
+- If the player crashes into an obstacle, it's reset to starting position, until the lives run out.  
 - If the player reaches the teapot, it wins.  
 - If the player runs out of lives, it loses.  
 - If the time elapsed and the player hasn't reached the teapoit, it loses.  
@@ -22,8 +22,8 @@ It's a browser rendered game built with:
 The game is structured as a grid, where obstacles and player move. All positioning is done following the grid and cells dimensions.
 
 ### GAME OBJECT
-The game updates every 20milliseconds and check if the player has crashed or won (and redraw the board).  
-The game has a "frame" variable that is increased by 1 everytime the game updates (so every 20milliseconds) that is used to draw new obstacles in the game.
+The game updates every 20 milliseconds and checks if the player has crashed or won (and redraw the board).  
+The game has a "frame" variable that is increased by 1 every time the game updates (so every 20milliseconds) that is used to draw new obstacles in the game.
 
 ### OBSTACLES
 
@@ -34,15 +34,15 @@ The obstacles are placed in 4 rows with the following config:
     - position: alternating on the X axis and randomly placed on row 1 or 3 on the Y axis
 - cookies Jars:
     - speed: medium
-    - size: two cell
+    - size: two cells
     - position: alternating on the X axis, row 2 on the Y axis
 - cookies Jars:
     - speed: fast
-    - size: two cell
+    - size: two cells
     - position: alternating on the X axis, row 4 on the Y axis
 
-Obstacles are created added to an array that is used to check for crash and to draw them on the board with every refresh.  
-At start, a function draw enough obstacles to fill the grid.  
+Obstacles are created and added to an array that is used to check for crash and to draw them on the board with every refresh.  
+When the page load, a function draw enough obstacles to fill the grid.  
 New obstacles are drawn every fixed number of frames, depending on their size and speed.  
 
 ### CRASH
