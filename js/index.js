@@ -371,9 +371,7 @@ function checkCrash() {
       if (lives > 0) {
         teaCup.resetPosition();
         teaCup.draw();
-        drawLives(lives);
       } else {
-        drawLives(lives);
         gameOver();
       }
     }
@@ -386,9 +384,7 @@ function checkCrash() {
       if (lives > 0) {
         teaCup.resetPosition();
         teaCup.draw();
-        drawLives(lives);
       } else {
-        drawLives(lives);
         gameOver();
       }
     }
@@ -401,7 +397,6 @@ function checkCrash() {
       if (lives > 0) {
         teaCup.resetPosition();
         teaCup.draw();
-        drawLives(lives);
       } else {
         gameOver();
       }
