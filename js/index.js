@@ -172,7 +172,7 @@ class obstaclesConfig {
 const gridSize = 75;
 const safeRowHeight=85;
 const playerSpeed = 10;
-let lives = 4;
+let lives = 5;
 
 let gameTime = 29;
 
@@ -402,7 +402,7 @@ function checkCrash() {
 
 function drawLives (numberOfLives){
   let x=5;
-  for (let i=1;i<=numberOfLives;i++) {
+  for (let i=0;i<numberOfLives-1;i++) {
     ctx.drawImage(teaCupImg, x, 5, 20, 20);
     x+=25;
   }
