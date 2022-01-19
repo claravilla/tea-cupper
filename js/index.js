@@ -43,9 +43,9 @@ const kettleImg = new Image();
 kettleImg.src = "./images/kettle.png";
 
 const gameOverImg = new Image();
-gameOverImg.src = "./images/game-over.jpg";
+gameOverImg.src = "./images/game-over.JPG";
 const youWinImg = new Image();
-youWinImg.src = "./images/you-win.png";
+youWinImg.src = "./images/you-win.PNG";
 
 //SOUNDS VARIABLES
 
