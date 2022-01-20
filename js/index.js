@@ -323,21 +323,11 @@ function drawInitialObstacles() {
 }
 
 //MOVE OBSTACLES
-function moveObstacles() {
-  cupCakes.forEach(function (eachCupCake) {
-    eachCupCake.x -= eachCupCake.speed;
-    eachCupCake.draw();
-  });
-
-  cookiesJars.forEach(function (eachCookiesJar) {
-    eachCookiesJar.x -= eachCookiesJar.speed;
-    eachCookiesJar.draw();
-  });
-
-  cookiesJarsTop.forEach(function (eachCookiesJar) {
-    eachCookiesJar.x -= eachCookiesJar.speed;
-    eachCookiesJar.draw();
-  });
+function moveObstacles(array) {
+   array.forEach((eachElement)=> {
+      eachElement.x -= eachElement.speed;
+      eachElement.draw();
+         })
 }
 
 //CREATE NEW OBSTACLES
@@ -524,7 +514,9 @@ function updateGameArea() {
   game.frame++;
   game.createBoard();
   teaCup.draw();
-  moveObstacles();
+  moveObstacles(cupCakes);
+  moveObstacles(cookiesJars);
+  moveObstacles(cookiesJarsTop);
   createNewObstacles();
   checkCrash();
   winGame();
