@@ -461,7 +461,6 @@ function gameOver() {
 //END GAME AND DISPLAY BUTTON TO PLAY AGAIN
 
 function endGame() {
-  console.log(`this works`);
   game.gameHasEnded = true;
   document.querySelector(".btn-game").innerHTML = "REPLAY";
   document.querySelector(".btn-game").classList.remove("hidden");
