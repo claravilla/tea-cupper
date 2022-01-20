@@ -94,8 +94,8 @@ const game = {
     clearInterval(this.interval);
   },
 
-  reset: function(){
-    gameSpeed=1;
+  reset: function () {
+    gameSpeed = 1;
     game.frame = 0;
     gameTime = 29;
     playerHasCrashed = false;
@@ -104,11 +104,11 @@ const game = {
     cookiesJars = [];
     cookiesJarsTop = [];
     teaCup.resetPosition();
-    kettle.x=5;
+    kettle.x = 5;
     cupCakeConfig.posX = 0;
-    cookiesJarLowConfig.posX=0;
+    cookiesJarLowConfig.posX = 0;
     cookiesJarHighConfig.posX = -2 * gridSize;
-  }
+  },
 };
 
 //CLASS COMPONENT USED TO CREATE ALL OBJECTS IN THE CANVAS
@@ -324,10 +324,10 @@ function drawInitialObstacles() {
 
 //MOVE OBSTACLES
 function moveObstacles(array) {
-   array.forEach((eachElement)=> {
-      eachElement.x -= eachElement.speed;
-      eachElement.draw();
-         })
+  array.forEach((eachElement) => {
+    eachElement.x -= eachElement.speed;
+    eachElement.draw();
+  });
 }
 
 //CREATE NEW OBSTACLES
@@ -395,7 +395,7 @@ function checkCrash() {
     }
   });
 
-   if (playerHasCrashed) {
+  if (playerHasCrashed) {
     lives--;
     if (lives > 0) {
       teaCup.resetPosition();
@@ -404,11 +404,7 @@ function checkCrash() {
     } else {
       gameOver();
     }
-
-
-   }
- 
-
+  }
 }
 
 //DRAW LIVES
@@ -450,7 +446,7 @@ function winGame() {
   }
 }
 
-//GAME OVER 
+//GAME OVER
 
 function gameOver() {
   game.stop();
@@ -460,15 +456,14 @@ function gameOver() {
   clearInterval(speedInterval);
   clearInterval(clearSpeedInterval);
   endGame();
- 
 }
 
 //END GAME AND DISPLAY BUTTON TO PLAY AGAIN
 
-function endGame () {
+function endGame() {
   console.log(`this works`);
   game.gameHasEnded = true;
-  document.querySelector(".btn-game").innerHTML="REPLAY"
+  document.querySelector(".btn-game").innerHTML = "REPLAY";
   document.querySelector(".btn-game").classList.remove("hidden");
 }
 
@@ -527,15 +522,14 @@ function updateGameArea() {
 //WAIT FOR THE PAGE TO FULLY LOAD BEFORE DRAWING THE GAME
 window.onload = gameSetup;
 
-
-function gameSetup () {
+function gameSetup() {
   game.createBoard();
   teaCup.draw();
   drawInitialObstacles();
   ctxTimer.fillStyle = "white";
   ctxTimer.fillRect(0, 0, canvasTimer.width, canvasTimer.height);
   kettle.draw();
-};
+}
 
 //EVENT LISTENERS FOR THE KEYS TO CONTROL THE GAME
 
@@ -563,36 +557,33 @@ document.querySelector(".btn-game").addEventListener("click", function () {
   //remove the Play button
   document.querySelector(".btn-game").classList.add("hidden");
 
-  if (!game.gameHasEnded) {   //so this is the first game as the boolean is set to false by default
-//to remove scrolling in browser with arrow keys
-window.addEventListener(
-  "keydown",
-  function (e) {
-    if (
-      ["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(
-        e.code
-      ) > -1
-    ) {
-      e.preventDefault();
-    }
-  },
-  false
-);
+  if (!game.gameHasEnded) {
+    //so this is the first game as the boolean is set to false by default
+    //to remove scrolling in browser with arrow keys
+    window.addEventListener(
+      "keydown",
+      function (e) {
+        if (
+          ["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(
+            e.code
+          ) > -1
+        ) {
+          e.preventDefault();
+        }
+      },
+      false
+    );
 
-//add eventlistener to arrow keys to move the player
-addControlEvents();
-
-
+    //add eventlistener to arrow keys to move the player
+    addControlEvents();
   }
 
-  
-
-  if (game.gameHasEnded) {    //if the boolean is set to true, reset game value and clear the board
+  if (game.gameHasEnded) {
+    //if the boolean is set to true, reset game value and clear the board
     game.reset();
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctxTimer.clearRect(0,0,canvasTimer.width, canvasTimer.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctxTimer.clearRect(0, 0, canvasTimer.width, canvasTimer.height);
     gameSetup();
-
   }
 
   //start game and timer
