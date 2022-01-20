@@ -65,6 +65,7 @@ const game = {
 
   gameHasEnded: false,
 
+  
   start: function () {
     this.interval = setInterval(updateGameArea, 20);
     this.gameHasEnded = false;
@@ -98,8 +99,8 @@ const game = {
     gameSpeed = 1;
     game.frame = 0;
     gameTime = 29;
-    playerHasCrashed = false;
     lives = 5;
+    playerHasCrashed = false;
     cupCakes = [];
     cookiesJars = [];
     cookiesJarsTop = [];
@@ -129,7 +130,7 @@ class Component {
 
   resetPosition() {
     this.x = (canvas.width - 43) / 2;
-    this.y = canvas.height - 60;
+    this.y = canvas.height - 59;
   }
 
   moveLeft() {
@@ -174,17 +175,18 @@ class Component {
 
   crashWith(obstacle) {
     if (
-      this.down() < obstacle.up() ||
-      this.up() > obstacle.down() ||
-      this.right() < obstacle.left() ||
-      this.left() > obstacle.right()
+      this.down() <= obstacle.up() ||
+      this.up() >= obstacle.down() ||
+      this.right() <= obstacle.left() ||
+      this.left() >= obstacle.right()
     ) {
       return false;
+    } else {
+      return true;
     }
-    return true;
-  }
+   
 }
-
+}
 //CLASS TO GROUP ALL OBSTACLES DETAILS IN ONE PLACE
 
 class obstaclesConfig {
@@ -205,7 +207,8 @@ const safeRowHeight = 85;
 
 const playerSpeed = 15;
 let lives = 5;
-let playerHasCrashed = false;
+let playerHasCrashed= false;
+
 
 let gameTime = 29;
 let gameSpeed = 1;
@@ -261,7 +264,7 @@ const teaCup = new Component(
   44,
   teaCupImg,
   (canvas.width - 43) / 2,
-  canvas.height - 60,
+  canvas.height - 59,
   playerSpeed
 );
 
@@ -374,25 +377,26 @@ function createNewObstacles() {
 //CHECK IF TEACUP CRASHED
 
 function checkCrash() {
+
   cupCakes.some(function (eachCupCake) {
     if (teaCup.crashWith(eachCupCake)) {
       crashSound.play();
       playerHasCrashed = true;
-    } 
+    }
   });
 
   cookiesJars.some(function (eachCookiesJar) {
     if (teaCup.crashWith(eachCookiesJar)) {
       crashSound.play();
       playerHasCrashed = true;
-    } 
+    }
   });
 
   cookiesJarsTop.some(function (eachCookiesJar) {
     if (teaCup.crashWith(eachCookiesJar)) {
       crashSound.play();
       playerHasCrashed = true;
-    } 
+    }
   });
 
   if (playerHasCrashed) {
@@ -401,6 +405,7 @@ function checkCrash() {
       playerHasCrashed = false;
       teaCup.resetPosition();
       teaCup.draw();
+      
     } else {
       gameOver();
     }
