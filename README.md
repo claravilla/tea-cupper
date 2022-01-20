@@ -42,7 +42,7 @@ The obstacles are placed in 4 rows with the following config:
     - position: alternating on the X axis, row 4 on the Y axis
 
 Obstacles are created and added to an array that is used to check for crash and to draw them on the board with every refresh.  
-When the page load, a function draw enough obstacles to fill the grid.  
+When the page loads, a function draws enough obstacles to fill the grid.  
 New obstacles are drawn every fixed number of frames, depending on their size and speed.  
 
 ### CRASH
@@ -58,7 +58,11 @@ The function stops the game. It's called when either the time or lives reach 0.
 
 ### CHANGE OF SPEED
 There is a game speed variable set to 1, and each obstacle's speed is a multiplier of it.  
-Every 7 seconds the game speed is randomly changed to 0.5 or 3, making the obstacles' speed increase or decrease. This lasts for 2 sec and then the game speed is resetted to 1.
+Every 7 seconds the game speed is randomly changed to 0.5 or 3, making the obstacles' speed increase or decrease. This lasts for 2 sec and then the game speed is reset to 1.
+
+### GAME RESET
+To avoid refreshing the page every time the game ends, the "replay" button is displayed at the end of each game.  
+When clicked, the game variables are reset to original values and the game restarts. To control the reset, there is a boolean variable that is set to False when the game starts and to True when the games ends (win or lose).
 
 
 
