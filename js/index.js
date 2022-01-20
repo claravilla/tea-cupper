@@ -378,29 +378,29 @@ function checkCrash() {
     if (teaCup.crashWith(eachCupCake)) {
       crashSound.play();
       playerHasCrashed = true;
-    }
+    } 
   });
 
   cookiesJars.some(function (eachCookiesJar) {
     if (teaCup.crashWith(eachCookiesJar)) {
       crashSound.play();
       playerHasCrashed = true;
-    }
+    } 
   });
 
   cookiesJarsTop.some(function (eachCookiesJar) {
     if (teaCup.crashWith(eachCookiesJar)) {
       crashSound.play();
       playerHasCrashed = true;
-    }
+    } 
   });
 
   if (playerHasCrashed) {
     lives--;
     if (lives > 0) {
+      playerHasCrashed = false;
       teaCup.resetPosition();
       teaCup.draw();
-      playerHasCrashed = false;
     } else {
       gameOver();
     }
