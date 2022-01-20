@@ -202,7 +202,7 @@ class obstaclesConfig {
 const gridSize = 75;
 const safeRowHeight = 85;
 
-const playerSpeed = 10;
+const playerSpeed = 15;
 let lives = 5;
 
 let gameTime = 29;
