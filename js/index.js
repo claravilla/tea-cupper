@@ -98,6 +98,7 @@ const game = {
     gameSpeed=1;
     game.frame = 0;
     gameTime = 29;
+    playerHasCrashed = false;
     lives = 5;
     cupCakes = [];
     cookiesJars = [];
@@ -204,6 +205,7 @@ const safeRowHeight = 85;
 
 const playerSpeed = 15;
 let lives = 5;
+let playerHasCrashed = false;
 
 let gameTime = 29;
 let gameSpeed = 1;
@@ -385,41 +387,38 @@ function checkCrash() {
   cupCakes.some(function (eachCupCake) {
     if (teaCup.crashWith(eachCupCake)) {
       crashSound.play();
-      lives--;
-      if (lives > 0) {
-        teaCup.resetPosition();
-        teaCup.draw();
-      } else {
-        gameOver();
-      }
+      playerHasCrashed = true;
     }
   });
 
   cookiesJars.some(function (eachCookiesJar) {
     if (teaCup.crashWith(eachCookiesJar)) {
       crashSound.play();
-      lives--;
-      if (lives > 0) {
-        teaCup.resetPosition();
-        teaCup.draw();
-      } else {
-        gameOver();
-      }
+      playerHasCrashed = true;
     }
   });
 
   cookiesJarsTop.some(function (eachCookiesJar) {
     if (teaCup.crashWith(eachCookiesJar)) {
       crashSound.play();
-      lives--;
-      if (lives > 0) {
-        teaCup.resetPosition();
-        teaCup.draw();
-      } else {
-        gameOver();
-      }
+      playerHasCrashed = true;
     }
   });
+
+   if (playerHasCrashed) {
+    lives--;
+    if (lives > 0) {
+      teaCup.resetPosition();
+      teaCup.draw();
+      playerHasCrashed = false;
+    } else {
+      gameOver();
+    }
+
+
+   }
+ 
+
 }
 
 //DRAW LIVES
